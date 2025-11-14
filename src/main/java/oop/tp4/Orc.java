@@ -88,7 +88,7 @@ public class Orc extends Humanoide
     @Override
     public String toString()
     {
-        return String.format("Orc[ID: %d, Facção: %s, Vida: %.1f, Rage: %d, Sarrafo: %s",
+        return String.format("Orc[ID: %d, Facção: %s, Vida: %.1f, Rage: %d, Sarrafo: %s]",
                 getId(), faccao, getPontosVida(), raiva, temSarrafo ? "SIM" : "NÃO");
     }
 }
