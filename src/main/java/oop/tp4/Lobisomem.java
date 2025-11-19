@@ -13,6 +13,14 @@ public class Lobisomem extends Humanoide
     private int poderDaLua;
     
     /**
+     * Construtor que utiliza o método this() para chamar outro construtor da mesma classe.
+     */
+    public Lobisomem()
+    {
+        this("Selvagens", 90.0, 75); // Uso de this() para chamar o construtor principal.
+    }
+    
+    /**
      * Construtor para a classe Lobisomem.
      * 
      * @param faccao Facção do lobisomem
@@ -33,9 +41,9 @@ public class Lobisomem extends Humanoide
     @Override
     public void atacar()
     {
-        if (estaTransformado)
+        if (this.estaTransformado)
         {
-            double dano = 20 + (poderDaLua * 0.3);
+            double dano = 20 + (this.poderDaLua * 0.3);
             System.out.printf("Lobisomem ataca com garras! Dano: %.1f\n", dano);
         }
         else
@@ -48,9 +56,10 @@ public class Lobisomem extends Humanoide
      * Implementação do método de fala específico para lobisomens.
      * A fala varia dependendo se está transformado ou não.
      */
+    @Override
     public void falar()
     {
-        if (estaTransformado)
+        if (this.estaTransformado)
         {
             System.out.println("Lobisomem uiva: Auuuuuu! *A lua chama por mim*");
         }
@@ -61,20 +70,68 @@ public class Lobisomem extends Humanoide
     }
     
     /**
+     * Override do método print() para incluir atributos específicos da classe Lobisomem.
+     */
+    @Override
+    public void print()
+    {
+        super.print();
+        System.out.println("=== ATRIBUTOS ESPECÍFICOS DA CLASSE LOBISOMEM ===");
+        System.out.println("Poder da Lua: " + this.poderDaLua);
+        System.out.println("Transformado: " + this.estaTransformado);
+    }
+    
+    /**
+     * Override do método clone() para Lobisomem.
+     * 
+     * @return Uma cópia do Lobisomem atual
+     * @throws CloneNotSupportedException Se a clonagem não for suportada
+     */
+    @Override
+    public Lobisomem clone() throws CloneNotSupportedException
+    {
+        Lobisomem clonado = (Lobisomem) super.clone();
+        return clonado;
+    }
+    
+    /**
+     * Override do método equals() para Lobisomem.
+     * 
+     * @param obj Objecto a ser comparado
+     * @return true se os objectos forem iguais, false em caso contrário
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!super.equals(obj))
+        {
+            return false;
+        }
+        
+        if (obj instanceof Lobisomem)
+        {
+            Lobisomem outro = (Lobisomem) obj;
+            return this.poderDaLua == outro.poderDaLua &&
+                    this.estaTransformado == outro.estaTransformado;
+        }
+        return false;
+    }
+    
+    /**
      * Método específico para a transformação em lobisomem.
      * A transformação depende do poder da lua.
      */
     public void transformar()
     {
-        if (poderDaLua >= 50 && !estaTransformado)
+        if (this.poderDaLua >= 50 && !this.estaTransformado)
         {
-            estaTransformado = true;
-            cura(15); // Cura ao transformar-se
+            this.estaTransformado = true;
+            this.cura(15); // Cura ao transformar-se
             System.out.println("Lobisomem transforma-se! +15 de vida.");
         }
-        else if (estaTransformado)
+        else if (this.estaTransformado)
         {
-            estaTransformado = false;
+            this.estaTransformado = false;
             System.out.println("Lobisomem volta à forma humana.");
         }
         else
@@ -83,9 +140,21 @@ public class Lobisomem extends Humanoide
         }
     }
     
+    /**
+     * Método para demonstrar encadeamento através do uso de this.
+     * 
+     * @param poderDaLua Novo poder da lua
+     * @return A própria instância para permitir encadeamento de métodos
+     */
+    public Lobisomem setPoderDaLuaComThis(int poderDaLua)
+    {
+        this.poderDaLua = poderDaLua;
+        return this; // Retorna this para encadeamento
+    }
+    
     // Getters e Setters
     public boolean isEstaTransformado() {
-        return estaTransformado;
+        return this.estaTransformado;
     }
 
     public void setEstaTransformado(boolean estaTransformado) {
@@ -93,7 +162,7 @@ public class Lobisomem extends Humanoide
     }
 
     public int getPoderDaLua() {
-        return poderDaLua;
+        return this.poderDaLua;
     }
 
     public void setPoderDaLua(int poderDaLua) {
@@ -104,6 +173,7 @@ public class Lobisomem extends Humanoide
     public String toString()
     {
         return String.format("Lobisomem[ID: %d, Facção: %s, Vida: %.1f, Poder da Lua: %d, Transformado: %s]",
-                getId(), faccao, getPontosVida(), poderDaLua, estaTransformado ? "SIM" : "NÃO");
+                this.getId(), this.faccao, this.getPontosVida(),
+                this.poderDaLua, this.estaTransformado ? "SIM" : "NÃO");
     }
 }
