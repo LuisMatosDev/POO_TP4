@@ -1,6 +1,9 @@
 oop\tp4\Orc.class
 oop\tp4\Humano.class
 oop\tp4\Humanoide.class
+oop\tp4\Jogo.class
+oop\tp4\IInimigo.class
 oop\tp4\Lobisomem.class
 oop\tp4\POO_TP4.class
-oop\tp4\Jogo.class
+oop\tp4\ITransformavel.class
+oop\tp4\ICriatura.class
