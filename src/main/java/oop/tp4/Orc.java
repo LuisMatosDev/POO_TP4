@@ -6,11 +6,13 @@ package oop.tp4;
  * 
  * @author Luis Matos
  */
-public class Orc extends Humanoide
+public class Orc extends Humanoide implements IInimigo
 {
     // Atributo privado específico da classe Orc.
     private int raiva;
     private boolean temSarrafo;
+    private int nivelAmeaca; // Atributo adicional para a interface
+    
     
     /**
      * Construtor a utilizar o método this() para chamar outro construtor.
@@ -33,6 +35,48 @@ public class Orc extends Humanoide
         super(faccao, pontosVida);
         this.raiva = raiva;
         this.temSarrafo = temSarrafo;
+        this.nivelAmeaca = VALOR_AMEACA_DEFEITO; // Utilização da constante da interface
+    }
+    
+    // Implementação dos métodos das interfaces IInimigo e ICriatura
+    
+    @Override
+    public void sonoriza()
+    {
+        System.out.println("Orc grunhe: 'Waaaaagh!! Loktar ogar!'");
+    }
+    
+    @Override
+    public boolean estaAtivo()
+    {
+        return this.estaVivo() && this.raiva > 0; // Orc ativo se vivo e com raiva
+    }
+    
+    @Override
+    public int calculaRecompensa()
+    {
+        int recompensa = 100 + (this.nivelAmeaca * 20);
+        if(this.temSarrafo)
+        {
+            recompensa += 50; // Bónus por orc possuir sarrafo
+        }
+        return recompensa;
+    }
+    
+    @Override
+    public void acaoEspecial()
+    {
+        System.out.println("Orc realiza ação especial: Chamada de reforços!");
+        this.nivelAmeaca += 2;
+        System.out.println("Nível de ameaça aumentado para: " + this.nivelAmeaca);
+    }
+    
+    // Método para demonstrar uso das constantes das interfaces
+    public void mostraConstantesInterfaces()
+    {
+        System.out.println("Tipo padrão de criatura: " + TIPO_CRIATURA_DEFEITO);
+        System.out.println("Nível de ameaça padrão: " + VALOR_AMEACA_DEFEITO);
+        System.out.println("Nível de ameaça atual: " + this.nivelAmeaca);
     }
     
     /**
@@ -67,8 +111,10 @@ public class Orc extends Humanoide
     {
         super.print(); // Chama o método print() da superclasse.
         System.out.println("=== ATRIBUTOS ESPECÍFICOS DA CLASSE ORC ===");
-        System.out.println("" + this.raiva);
-        System.out.println("" + this.temSarrafo);
+        System.out.println("Raiva: " + this.raiva);
+        System.out.println("Tem Sarrafo: " + this.temSarrafo);
+        System.out.println("Nível de Ameaça: " + this.nivelAmeaca);
+        System.out.println("Valor de Recompensa: " + this.calculaRecompensa());
     }
     
     /**

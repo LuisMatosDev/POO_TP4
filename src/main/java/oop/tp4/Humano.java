@@ -6,11 +6,13 @@ package oop.tp4;
  * 
  * @author Luis Matos
  */
-public class Humano extends Humanoide
+public class Humano extends Humanoide implements ICriatura, ITransformavel
 {
     // Atributo privado específico da classe Humano
     private int inteligencia;
     private boolean temArmadura;
+    
+    public static final int TRANSFORMACOES_MAX = 5;
     
     /**
      * Construtor que utiliza o método this() para chamar outro construtor da mesma classe.
@@ -33,6 +35,45 @@ public class Humano extends Humanoide
         super(faccao, pontosVida);
         this.inteligencia = inteligencia;
         this.temArmadura = temArmadura;
+    }
+    
+    // Implementação dos métodos de ICriatura
+    @Override
+    public void sonoriza()
+    {
+        System.out.println("Humano sonoriza: 'Pela honra da Aliança!'");
+    }
+    
+    @Override
+    public boolean estaAtivo()
+    {
+        return this.estaVivo(); // Utilização do this com método protegido da superclasse
+    }
+    
+    // Implementação dos métodos de ITransformavel
+    @Override
+    public void iniciaTransformacao()
+    {
+        System.out.println("Humano inicia transformação para paladino sagrado!");
+        this.cura(50);
+        System.out.println("Transformação concedeu +50 pontos de vida!");
+    }
+    
+    @Override
+    public void reverteTransformacao()
+    {
+        System.out.println("Humano reverte transformação para forma normal.");
+    }
+    
+    /**
+     * Método para demonstrar a constante redefinida
+     */
+    public void mostrarLimiteTransformação()
+    {
+        System.out.println("Limite Transformação (Interface): "
+                + ITransformavel.TRANSFORMACOES_MAX);
+        System.out.println("Limite Transformação (Humano): "
+                + TRANSFORMACOES_MAX);
     }
     
     /**
@@ -66,6 +107,8 @@ public class Humano extends Humanoide
         System.out.println("Inteligência: " + this.inteligencia);
         System.out.println("Tem armadura: " + this.temArmadura);
         System.out.println("Está vivo: " + this.estaVivo()); // Uso do this com o método protegido.
+        System.out.println("Tipo Criatura: " + TIPO_CRIATURA_DEFEITO);
+        System.out.println("Máximo de transformações: " + TRANSFORMACOES_MAX);
     }
     
     /**

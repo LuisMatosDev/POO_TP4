@@ -18,6 +18,10 @@ public class Jogo
    // Lista para demonstração de coleções
    private List<Humanoide> listaInimigo;
    
+   // Listas para demonstração de seleção dinâmica com interfaces
+   private List<ICriatura> listaCriatura;
+   private List<IInimigo> listaInimigoInterface;
+   
    /**
     * Construtor da classe Jogo.
     * 
@@ -28,6 +32,99 @@ public class Jogo
        this.inimigoAtual = inimigoInicial;
        this.estadoJogo = "A CORRER!";
        this.listaInimigo = new ArrayList<>(); // Inicializa a lista
+       this.listaCriatura = new ArrayList<>();
+       this.listaInimigoInterface = new ArrayList<>();
+   }
+   
+   /**
+    * Método para demonstrar seleção dinâmica com array de interfaces.
+    */
+   public void demonstraPolimorfismoInterface()
+   {
+       System.out.println("\n=== DEMONSTRAÇÃO DE POLIMORFISMO COM INTERFACES ===");
+       
+       // Array de ICriatura demonstrando seleção dinâmica
+       ICriatura[] criaturas = new ICriatura[3];
+       
+       // Criação de instâncias que implementam ICriatura
+       Humano humano = new Humano();
+       Orc orc = new Orc();
+       
+       criaturas[0] = humano;
+       criaturas[1] = orc;
+       
+       for (ICriatura criatura : criaturas)
+       {
+           if (criatura != null)
+           {
+               System.out.println("\n--- Processando criatura via interface ---");
+               criatura.sonoriza();
+               System.out.println("Está ativa? " + criatura.estaAtivo());
+               
+               if (criatura instanceof IInimigo)
+               {
+                   IInimigo inimigo = (IInimigo) criatura;
+                   System.out.println("Recompensa: " + inimigo.calculaRecompensa());
+               }
+               
+               if (criatura instanceof ITransformavel)
+               {
+                   ITransformavel transformavel = (ITransformavel) criatura;
+                   transformavel.iniciaTransformacao();
+                   
+                   if (transformavel instanceof Humano)
+                   {
+                       Humano humanoCast = (Humano) transformavel;
+                       humanoCast.mostrarLimiteTransformação();
+                   }
+               }
+           }
+       }
+       
+       System.out.println("\n=== DEMONSTRAÇÃO COM COLEÇÃO INIMIGO ===");
+       listaInimigoInterface.add(orc);
+       
+       for (IInimigo inimigo : listaInimigoInterface)
+       {
+           System.out.println("\n--- Processando inimigo via interface IInimigo ---");
+           inimigo.sonoriza();
+           System.out.println("Nível de ameaça padrão: " + IInimigo.VALOR_AMEACA_DEFEITO);
+           
+           if (inimigo instanceof Orc)
+           {
+               Orc inimigoOrc = (Orc) inimigo;
+               inimigoOrc.mostraConstantesInterfaces();
+           }
+       }
+   }
+   
+   /**
+    * Método para adicionar criatura à lista de interfaces.
+    * @param criatura Criatura a adicionar
+    * @return A própria instância para encadeamento
+    */
+   public Jogo adicionaCriatura(ICriatura criatura)
+   {
+       this.listaCriatura.add(criatura);
+       
+       if (criatura instanceof IInimigo)
+       {
+           this.listaInimigoInterface.add((IInimigo) criatura);
+       }
+       
+       return this;
+   }
+   
+   /**
+    * Método para demonstrar constantes das interfaces.
+    */
+   public void demonstraConstantesInterfaces()
+   {
+       System.out.println("\n=== CONSTANTES DAS INTERFACES ===");
+       System.out.println("ICriatura.TIPO_CRIATURA_DEFEITO: " + ICriatura.TIPO_CRIATURA_DEFEITO);
+       System.out.println("IInimigo.VALOR_AMEACA_DEFEITO: " + IInimigo.VALOR_AMEACA_DEFEITO);
+       System.out.println("ITransformavel.TRANSFORMACOES_MAX: " + ITransformavel.TRANSFORMACOES_MAX);
+       System.out.println("Humano.TRANSFORMACOES_MAX: " + Humano.TRANSFORMACOES_MAX);
    }
    
    /**
